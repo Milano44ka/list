@@ -41,13 +41,34 @@ void AddLast(PNode &Head, PNode &Tail, PNode NewNode) //добавить в ко
  if ( ! Head ) Head = Tail; // этот элемент – последний
 } 
 
-void AddAfter (PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
+void AddAfter (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
 {
- NewNode->next = p->next;
- p->next = NewNode;
-}
+    if ( ! p->next )
+        AddLast (Head, Tail, NewNode); // вставка в конец списка
+    else 
+    {
+        NewNode->next = p->next; // меняем ссылки нового узла
+        NewNode->prev = p;
+        p->next->prev = NewNode; // меняем ссылки соседних узлов
+        p->next = NewNode;
+    }
+} 
 
-void AddBefore(PNode &Head, PNode p, PNode NewNode) //добавление узла NewNode перед узлом с адресом р
+void AddBefore (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
+{
+    if ( ! p->prev )
+        AddFirst (Head, Tail, NewNode); // вставка в начало списка
+    else 
+    {
+        NewNode->prev = p->prev; // меняем ссылки нового узла
+        NewNode->next = p;
+        p->prev->next = NewNode; // меняем ссылки соседних узлов
+        p->prev = NewNode;
+    }
+} 
+
+
+/*void AddBefore(PNode &Head, PNode p, PNode NewNode) //добавление узла NewNode перед узлом с адресом р
 {
     PNode q = Head;
     if (Head == p) 
@@ -61,9 +82,9 @@ void AddBefore(PNode &Head, PNode p, PNode NewNode) //добавление уз�
     }
     if ( q )
     {
-        AddAfter(q, NewNode); 
+        AddAfter(Head, Tail, q, NewNode); 
     }
-}
+} */
 
 PNode Find (PNode Head, char NewWord[]) //поиск адреса узла с контентом NewWord
 {
@@ -103,15 +124,20 @@ void FillList()
     AddFirst ( Head, Tail, CreateNode("Тупейко") );
     AddFirst ( Head, Tail, CreateNode("Ризванов") );
     AddFirst ( Head, Tail, CreateNode("Фурсов") );
-    AddAfter ( Head, CreateNode("Галяткин") );
-    AddAfter ( Head, CreateNode("Матуленко"));
-    AddAfter ( Head, CreateNode("Слющенков") );
+    AddLast ( Head, Tail, CreateNode("Галяткин") );
+    AddLast ( Head, Tail, CreateNode("Матуленко"));
+    AddLast ( Head, Tail, CreateNode("Слющенков") );
     AddFirst ( Head, Tail, CreateNode("Губин") );
     AddFirst ( Head, Tail, CreateNode("Волошин") );
     AddFirst ( Head, Tail, CreateNode("Косаченко") );
 }
 
 int main()
-{   
+{
+    /*for(int i =0; i <5; i++)
+    {
+        
+    }*/
+    
     return 0;
 }
