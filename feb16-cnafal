@@ -54,7 +54,7 @@ void AddAfter (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавл�
     }
 } 
 
-void AddBefore (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
+void AddBefore (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode перед узлом с адресом р
 {
     if ( ! p->prev )
         AddFirst (Head, Tail, NewNode); // вставка в начало списка
@@ -66,25 +66,6 @@ void AddBefore (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавл
         p->prev = NewNode;
     }
 } 
-
-
-/*void AddBefore(PNode &Head, PNode p, PNode NewNode) //добавление узла NewNode перед узлом с адресом р
-{
-    PNode q = Head;
-    if (Head == p) 
-    {
-        AddFirst(Head, Tail, NewNode); 
-        return;
-    }
-    while (q && q->next!=p) 
-    {
-        q = q->next;
-    }
-    if ( q )
-    {
-        AddAfter(Head, Tail, q, NewNode); 
-    }
-} */
 
 PNode Find (PNode Head, char NewWord[]) //поиск адреса узла с контентом NewWord
 {
@@ -133,11 +114,6 @@ void FillList()
 }
 
 int main()
-{
-    /*for(int i =0; i <5; i++)
-    {
-        
-    }*/
-    
+{    
     return 0;
 }
