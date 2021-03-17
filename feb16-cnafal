@@ -6,11 +6,13 @@ struct Node
 {
  char word[40]; 
  int count;
- Node *next; 
+ Node *next;
+ Node *prev;
  };
 typedef Node *PNode; //указатель на узел
 
 PNode Head = NULL;
+PNode Tail = NULL;
 
 PNode CreateNode ( char NewWord[] ) //создание нового узла с контентом NewWord
 {
@@ -26,6 +28,17 @@ void AddFirst (PNode &Head, PNode NewNode) //добавление новой г�
  NewNode->next = Head;
  Head = NewNode;
 }
+
+void AddLast(PNode &Head, PNode NewNode) //добавить в конец узел NewNode
+{
+    if (Head == NULL)  
+    {
+        AddFirst(Head, NewNode); 
+        return;
+    }
+    NewNode->prev = Tail;
+    Tail = NewNode;
+} 
 
 void AddAfter (PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
 {
@@ -50,18 +63,6 @@ void AddBefore(PNode &Head, PNode p, PNode NewNode) //добавление уз�
         AddAfter(q, NewNode); 
     }
 }
-
-void AddLast(PNode &Head, PNode NewNode) //добавить в конец узел NewNode
-{
-    PNode q = Head;
-    if (Head == NULL)  
-    {
-        AddFirst(Head, NewNode); 
-        return;
-    }
-    while (q->next) q = q->next; 
-        AddAfter(q, NewNode);
-} 
 
 PNode Find (PNode Head, char NewWord[]) //поиск адреса узла с контентом NewWord
 {
