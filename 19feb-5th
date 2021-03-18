@@ -117,11 +117,11 @@ int main()
 {    
     PNode p = Tail;
     
-    for(int i=0; i < 5; i++)
+    for(int i=1; i <= 5; i++)
     {
         p = p->prev;
     }
-    std::cout << p.word;
+    std::cout << p->word;
     
     return 0;
 }
