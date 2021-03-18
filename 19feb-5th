@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+
+struct Node 
+{
+ char word[40]; 
+ int count;
+ Node *next;
+ Node *prev;
+ };
+typedef Node *PNode; //указатель на узел
+
+PNode Head = NULL;
+PNode Tail = NULL;
+
+PNode CreateNode ( char NewWord[] ) //создание нового узла с контентом NewWord
+{
+ PNode NewNode = new Node; 
+ strcpy(NewNode->word, NewWord); 
+ NewNode->count = 1; 
+ NewNode->next = NULL; 
+ return NewNode; 
+} 
+
+void AddFirst(PNode &Head, PNode &Tail, PNode NewNode) //добавление новой головы NewNode, старая смещается
+{
+ NewNode->next = Head;
+ NewNode->prev = NULL;
+ if ( Head ) Head->prev = NewNode;
+ Head = NewNode;
+ if ( ! Tail ) Tail = Head; // этот элемент – первый
+} 
+
+void AddLast(PNode &Head, PNode &Tail, PNode NewNode) //добавить в конец узел NewNode
+{
+ NewNode->prev = Tail;
+ NewNode->next = NULL;
+ if ( Tail ) Tail->next = NewNode;
+ Tail = NewNode;
+ if ( ! Head ) Head = Tail; // этот элемент – последний
+} 
+
+void AddAfter (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode после узла с адресом р
+{
+    if ( ! p->next )
+        AddLast (Head, Tail, NewNode); // вставка в конец списка
+    else 
+    {
+        NewNode->next = p->next; // меняем ссылки нового узла
+        NewNode->prev = p;
+        p->next->prev = NewNode; // меняем ссылки соседних узлов
+        p->next = NewNode;
+    }
+} 
+
+void AddBefore (PNode &Head, PNode &Tail, PNode p, PNode NewNode) //добавление узла NewNode перед узлом с адресом р
+{
+    if ( ! p->prev )
+        AddFirst (Head, Tail, NewNode); // вставка в начало списка
+    else 
+    {
+        NewNode->prev = p->prev; // меняем ссылки нового узла
+        NewNode->next = p;
+        p->prev->next = NewNode; // меняем ссылки соседних узлов
+        p->prev = NewNode;
+    }
+} 
+
+PNode Find (PNode Head, char NewWord[]) //поиск адреса узла с контентом NewWord
+{
+ PNode q = Head;
+ while (q && strcmp(q->word, NewWord))
+ q = q->next;
+ return q;
+}
+
+PNode FindPlace (PNode Head, char NewWord[]) //поиск адреса узла, по алф предшевств узлу с контентом NewWord
+{
+ PNode q = Head;
+ while (q && (strcmp(q->word, NewWord) > 0))
+ q = q->next;
+ return q;
+} 
+
+void DeleteNode(PNode &Head, PNode OldNode) //удаление узла с адресом OldNode
+{
+PNode q = Head;
+if (Head == OldNode)
+ Head = OldNode->next; 
+else {
+ while (q && q->next != OldNode) 
+ q = q->next;
+ if ( q == NULL ) return; 
+ q->next = OldNode->next;
+ }
+delete OldNode; 
+} 
+
+void FillList()
+{
+    AddLast ( Head, Tail, CreateNode("Демидов") );
+    AddLast ( Head, Tail, CreateNode("Морев") );
+    AddLast ( Head, Tail, CreateNode("Котяшов") );
+    AddFirst ( Head, Tail, CreateNode("Тупейко") );
+    AddFirst ( Head, Tail, CreateNode("Ризванов") );
+    AddFirst ( Head, Tail, CreateNode("Фурсов") );
+    AddLast ( Head, Tail, CreateNode("Галяткин") );
+    AddLast ( Head, Tail, CreateNode("Матуленко"));
+    AddLast ( Head, Tail, CreateNode("Слющенков") );
+    AddFirst ( Head, Tail, CreateNode("Губин") );
+    AddFirst ( Head, Tail, CreateNode("Волошин") );
+    AddFirst ( Head, Tail, CreateNode("Косаченко") );
+}
+
+int main()
+{    
+    PNode p = Tail;
+    
+    for(int i=0; i < 5; i++)
+    {
+        p = p->prev;
+    }
+    std::cout << p.word;
+    
+    return 0;
+}
